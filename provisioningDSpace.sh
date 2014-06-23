@@ -11,15 +11,15 @@ sudo sed -i.bak s/"#listen_addresses = 'localhost'/listen_addresses = '\*'"/ /et
 sudo rm /etc/postgresql/9.3/main/postgresql.conf.bak
 
 # Further PostgreSQL configuration
-sudo cp /vagrant/pg_hba.conf /etc/postgresql/9.3/main/
+sudo cp ./pg_hba.conf /etc/postgresql/9.3/main/
 sudo /etc/init.d/postgresql restart
 
 # Servlet Engine: Apache Tomcat 7
 sudo apt-get -y install tomcat7
 
 # Create user dspace
-sudo newusers /vagrant/users
-sudo cp /vagrant/setenvvars.sh /etc/profile.d/
+sudo newusers ./users
+sudo cp ./setenvvars.sh /etc/profile.d/
 
 # Move Tomcat to port 80
 # 80 is a privileged port and dspace is not authorized to run an app in that space
@@ -41,15 +41,15 @@ git checkout -b dspace-4_x
 git checkout dspace-4.1
 
 # Create database and user
-sudo -u postgres psql --file=/vagrant/create.sql
+sudo -u postgres psql --file=./create.sql
 
 # Create DSpace folder
 sudo mkdir /dspace
 sudo chown dspace /dspace
 
 # Load dspace setup files
-sudo cp /vagrant/build.properties /home/dspace/dspace-source/
-sudo cp /vagrant/pom.xml /home/dspace/dspace-source/
+sudo cp ./build.properties /home/dspace/dspace-source/
+sudo cp ./pom.xml /home/dspace/dspace-source/
 
 # Build installation package
 cp /home/dspace/dspace-source/dspace
@@ -60,9 +60,9 @@ cp /home/dspace/dspace-source/target/dspace-4.1-build
 sudo -u dspace ant fresh-install
 
 # Deploying web applications
-sudo cp /vagrant/xmlui.xml /etc/tomcat7/Catalina/localhost
-sudo cp /vagrant/jspui.xml /etc/tomcat7/Catalina/localhost
-sudo cp /vagrant/oai.xml /etc/tomcat7/Catalina/localhost
+sudo cp ./xmlui.xml /etc/tomcat7/Catalina/localhost
+sudo cp ./jspui.xml /etc/tomcat7/Catalina/localhost
+sudo cp ./oai.xml /etc/tomcat7/Catalina/localhost
 
 # Should create administrator account in non interactive way
 # ...
